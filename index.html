@@ -1,0 +1,83 @@
+DOCTYPE html>
+<html>
+<head>
+    <title>COVID-19 Health Status Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 30px;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkblue;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>COVID-19 Health Status Tracker</h2>
+
+        <button onclick="getCovidData()">
+            Get Latest COVID Data
+        </button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function getCovidData() {
+
+            fetch("https://disease.sh/v3/covid-19/all")
+
+            .then(function(response) {
+                return response.json();
+            })
+
+            .then(function(data) {
+
+                let output =
+                    "<h3>Global COVID Report</h3>" +
+                    "<p><b>Total Cases:</b> " + data.cases + "</p>" +
+                    "<p><b>Today's Cases:</b> " + data.todayCases + "</p>" +
+                    "<p><b>Total Deaths:</b> " + data.deaths + "</p>" +
+                    "<p><b>Today's Deaths:</b> " + data.todayDeaths + "</p>" +
+                    "<p><b>Recovered:</b> " + data.recovered + "</p>" +
+                    "<p><b>Active Cases:</b> " + data.active + "</p>" +
+                    "<p><b>Critical Cases:</b> " + data.critical + "</p>";
+
+                document.getElementById("result").innerHTML = output;
+            })
+
+            .catch(function(error) {
+                document.getElementById("result").innerHTML =
+                    "Error fetching data!";
+            });
+        }
+    </script>
+
+</body>
+</html>
